@@ -8,6 +8,7 @@ Created on Sun Aug 27 21:16:20 2017
 import numpy as np
 np.set_printoptions(threshold=np.nan)
 import random
+import pygame
 
 #For non boarder cells, determines if a live cell lives or dies
 #Inputs:
@@ -49,10 +50,10 @@ def cell_birth(board, X, Y):
 #   width - width of the board
 #   displayLength - displayed length of the board
 #   diaplyWidth - dispalyed width of the board
-def in_boarder(length, width, displayLength, displayWidth, X, Y):
-    if X >= ( ( length - displayLength ) / 2 ) and X <= length - ( length - displayLength ) /  2:
+def in_boarder(board, boarderWidth, X, Y):
+    if X >= boarderWidth and X <= len(board[0,:]) - boarderWidth:
         return 1
-    if Y >= ( ( width - displayWidth ) / 2 ) and Y <= width - ( width - displayWidth ) /  2:
+    if Y >=  boarderWidth and Y <= len(board[:,0]) - boarderWidth:
         return 1
     return 0
 
@@ -87,8 +88,7 @@ def initialize_board(length, width, pLive):
 #   totalGenerations - the total amount of board geneartions to iterate through
 gameInputs = {'length': 10,
               'width': 10,
-              'displayLength': 6,
-              'displayWidth': 6,
+              'boarderWidth': 3,
               'totalGenerations': 25,
               'startingLive': .5}
 
@@ -101,7 +101,7 @@ def main():
         print(currentGeneration)
         for row in [0, gameInputs['length'] - 1]:
             for col in [0, gameInputs['width'] - 1]:
-                if in_boarder(gameInputs['length'], gameInputs['width'], gameInputs['displayLength'], gameInputs['displayWidth'], row, col ):
+                if in_boarder(board, gameInputs['boarderWidth'], row, col ):
                     board[row,col] = boarder_rules(board, row, col)
                 elif board[row, col] == 1:
                     board[row,col] = cell_survival(board, row, col)
@@ -114,12 +114,11 @@ def main():
 def test():
     board = np.zeros((10,10))
     
-   # for x in [0, len(board[:,0]) ]:
-    #    for y in [0, len(board[0,:])]:
-     #       board[x,y] = in_boarder(10, 10, 6, 6, x,y)
+    for x in range (0, 9):
+        print(1)
+        for y in range (0, 9):
+            board[x,y] = in_boarder(board, 3, x, y)
 
-    print(in_boarder(10, 10, 6, 6, 7,7))   
-        
     print(board)
     
 test()
