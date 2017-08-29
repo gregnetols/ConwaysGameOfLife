@@ -8,7 +8,7 @@ Created on Sun Aug 27 21:16:20 2017
 import numpy as np
 np.set_printoptions(threshold=np.nan)
 import random
-import pygame
+#import pygame
 
 #For non boarder cells, determines if a live cell lives or dies
 #Inputs:
@@ -48,14 +48,17 @@ def cell_birth(board, X, Y):
 #   board - Game of Life board 
 #   length - length of the board
 #   width - width of the board
-#   displayLength - displayed length of the board
-#   diaplyWidth - dispalyed width of the board
 def in_boarder(board, boarderWidth, X, Y):
-    if X >= boarderWidth and X <= len(board[0,:]) - boarderWidth:
-        return 1
-    if Y >=  boarderWidth and Y <= len(board[:,0]) - boarderWidth:
-        return 1
-    return 0
+    inBoarder = 0
+    if X < boarderWidth:
+        inBoarder = 1
+    if Y < boarderWidth:
+        inBoarder = 1
+    if X >= len(board[:,0]) - boarderWidth:
+        inBoarder = 1
+    if Y >= len(board[0,:]) - boarderWidth:
+        inBoarder = 1
+    return inBoarder
 
 #Determines what happens between each generation for cells in the boarder
 #Inputs
@@ -63,10 +66,8 @@ def in_boarder(board, boarderWidth, X, Y):
 #   X - X Position
 #   Y -Y Position
 def boarder_rules(board, X, Y):
-    if random.random() < .5:
-        return 0
-    else:
-        return board[X,Y]
+    return 0
+
 
 #Initailize a Game of Life Board
 #Inputs:
@@ -86,8 +87,8 @@ def initialize_board(length, width, pLive):
 #   displayLength - displayed length of the board
 #   diaplyWidth - dispalyed width of the board
 #   totalGenerations - the total amount of board geneartions to iterate through
-gameInputs = {'length': 10,
-              'width': 10,
+gameInputs = {'length': 100,
+              'width': 100,
               'boarderWidth': 3,
               'totalGenerations': 25,
               'startingLive': .5}
@@ -97,11 +98,11 @@ def main():
     board = initialize_board(gameInputs['length'], gameInputs['width'], gameInputs['startingLive'])
     
     currentGeneration = 0
-    while( currentGeneration < gameInputs['totalGenerations']):
+    while currentGeneration < gameInputs['totalGenerations']:
         print(currentGeneration)
-        for row in [0, gameInputs['length'] - 1]:
-            for col in [0, gameInputs['width'] - 1]:
-                if in_boarder(board, gameInputs['boarderWidth'], row, col ):
+        for row in range (0, len(board[:,0])):
+            for col in range (0, len(board[0,:])):
+                if 1 == in_boarder(board, gameInputs['boarderWidth'], row, col ):
                     board[row,col] = boarder_rules(board, row, col)
                 elif board[row, col] == 1:
                     board[row,col] = cell_survival(board, row, col)
@@ -109,19 +110,17 @@ def main():
                     board[row,col] = cell_birth(board, row, col)
                     
         currentGeneration = currentGeneration + 1
-        print(board)
-    
-def test():
-    board = np.zeros((10,10))
-    
-    for x in range (0, 9):
-        print(1)
-        for y in range (0, 9):
-            board[x,y] = in_boarder(board, 3, x, y)
 
     print(board)
     
-test()
+def test():
+    board = np.zeros((10,10))
+    for x in range (0, 10):
+        for y in range (0, 10):
+            board[x,y] = in_boarder(board, gameInputs['boarderWidth'], x, y)
+    print(board)
+    
+main()
     
 
     
