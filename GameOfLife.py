@@ -113,13 +113,6 @@ def main():
 
     print(board)
     
-def test():
-    board = np.zeros((10,10))
-    for x in range (0, 10):
-        for y in range (0, 10):
-            board[x,y] = in_boarder(board, gameInputs['boarderWidth'], x, y)
-    print(board)
-    
 main()
     
 
