@@ -8,6 +8,7 @@ Created on Sun Aug 27 21:16:20 2017
 import numpy as np
 np.set_printoptions(threshold=np.nan)
 import random
+import pygame, sys
 
 #For non boarder cells, determines if a live cell lives or dies
 #Inputs:
@@ -18,6 +19,7 @@ def cell_survival(board, X, Y):
     liveNeighbors = 0
     for x in [X-1, X, X+1]:
         for y in [Y-1, Y, Y+1]:
+            if ( x != X or y != Y ) and board[x,y] == 1:
                 liveNeighbors = liveNeighbors + 1
     if liveNeighbors in [2,3]:
         return 1
@@ -34,6 +36,7 @@ def cell_birth(board, X, Y):
     liveNeighbors = 0
     for x in [X-1, X, X+1]:
         for y in [Y-1, Y, Y+1]:
+            if ( x != X or y != Y ) and board[x,y] == 1:
                 liveNeighbors = liveNeighbors + 1
     if liveNeighbors == 3 :
         return 1
