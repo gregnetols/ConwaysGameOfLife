@@ -14,13 +14,13 @@ import numpy as np
 #   x - x position
 #   y - y position
 # Returns: 1 stays alive 0 if it should die
-def cell_survival(board, x, y):
+def cell_survival(board, x, y, minSurvive, maxSurvive):
     liveNeighbors = 0
     for X in [x-1, x, x+1]:
         for Y in [y-1, y, y+1]:
             if ( X != x or Y != y ) and board[X,Y] == 1:
                 liveNeighbors = liveNeighbors + 1
-    if liveNeighbors in [2,3]:
+    if liveNeighbors in [minSurvive, maxSurvive]:
         return 1
     else:
         return 0
@@ -32,13 +32,13 @@ def cell_survival(board, x, y):
 #   x - x position
 #   y - y position
 # Returns: 1 if a dead cell comes back to life 0 otherwise
-def cell_birth(board, x, y):
+def cell_birth(board, x, y, minRebirth, maxRebirth):
     liveNeighbors = 0
     for X in [x-1, x, x+1]:
         for Y in [y-1, y, y+1]:
             if ( Y != x or Y != y ) and board[X,Y] == 1:
                 liveNeighbors = liveNeighbors + 1
-    if liveNeighbors == 3 :
+    if liveNeighbors in [minRebirth, maxRebirth] :
         return 1
     else:
         return 0
@@ -80,15 +80,15 @@ def initialize_board(length, height, pLive):
 # Inputs
 #   board - a game of life board
 # Returns the next iteration of a game of life board
-def game_of_life_turn(board):
+def game_of_life_turn(board, minSurvive, maxSurvive, minRebirth, maxRebirth):
     newBoard = np.zeros((board.shape))
     for row in range(0, len(board[:, 0])):
         for col in range(0, len(board[0, :])):
             if on_boarder(board, row, col):
                 newBoard[row, col] = boarder_rules(board, row, col)
             elif board[row, col] == 1:
-                newBoard[row, col] = cell_survival(board, row, col)
+                newBoard[row, col] = cell_survival(board, row, col, minSurvive, maxSurvive)
             elif board[row, col] == 0:
-                newBoard[row, col] = cell_birth(board, row, col)
+                newBoard[row, col] = cell_birth(board, row, col, minRebirth, maxRebirth)
     return newBoard
 

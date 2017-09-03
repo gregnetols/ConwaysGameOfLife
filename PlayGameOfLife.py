@@ -29,7 +29,11 @@ gameInputs = {'height': 140,
               'black': (0,0,0),
               'red': (255,0,0),
               'grey': (30,30,30),
-              'cellSize': 10}
+              'cellSize': 10,
+              'minSurvive': 2,
+              'maxSurvive': 3,
+              'minRebirth': 3,
+              'maxRebirth': 3}
 
 # initialize pygame
 pygame.init()
@@ -54,7 +58,8 @@ while True:
             sys.exit()
 
     # update board
-    board = GOL.game_of_life_turn(board)
+    #board = GOL.game_of_life_turn(board)
+    board = GOL.game_of_life_turn(board, gameInputs['minSurvive'], gameInputs['maxSurvive'], gameInputs['minRebirth'], gameInputs['maxRebirth'])
 
     # draw grid
     for x in range(0, (gameInputs['displayWidth'] * gameInputs['cellSize']), gameInputs['cellSize']):
