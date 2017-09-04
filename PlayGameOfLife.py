@@ -6,17 +6,11 @@ Created on Sun Aug 27 21:16:20 2017
 """
 
 import numpy as np
-np.set_printoptions(threshold=np.nan)
 import pygame, sys
 import GOL
 
 # Dictionary of game inputs
-# GgameInputs
-#   length - length of the board
-#   width - width of the board
-#   displayLength - displayed length of the board
-#   diaplyWidth - dispalyed width of the board
-#   totalGenerations - the total amount of board geneartions to iterate through
+# GameInputs
 gameInputs = {'height': 140,
               'length': 120,
               'width': 120,
@@ -25,7 +19,7 @@ gameInputs = {'height': 140,
               'displayWidth':100,
               'totalGenerations':200,
               'startingLive': .5,
-              'FPS': 100,
+              'FPS': 10,
               'black': (0,0,0),
               'red': (255,0,0),
               'grey': (30,30,30),
@@ -58,7 +52,6 @@ while True:
             sys.exit()
 
     # update board
-    #board = GOL.game_of_life_turn(board)
     board = GOL.game_of_life_turn(board, gameInputs['minSurvive'], gameInputs['maxSurvive'], gameInputs['minRebirth'], gameInputs['maxRebirth'])
 
     # draw grid
